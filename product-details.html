@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - ShopEasy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">ShopEasy.</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="wishlist.html" class="icon">
+                    <i class="fas fa-heart"></i>
+                    <span class="badge" id="wishlist-badge" style="display: none;">0</span>
+                </a>
+                <a href="cart.html" class="icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="badge" id="cart-badge" style="display: none;">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" id="product-details-container">
+        <!-- Injected via JS -->
+    </div>
+
+    <script src="js/products.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            const product = getProductById(id);
+            const container = document.getElementById('product-details-container');
+
+            if (!product) {
+                container.innerHTML = '<div class="empty-state"><h2>Product not found</h2><a href="products.html" class="btn btn-primary">Back to Products</a></div>';
+                return;
+            }
+
+            const stars = '★'.repeat(Math.round(product.rating)) + '☆'.repeat(5 - Math.round(product.rating));
+            
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            const isWishlisted = wishlist.includes(product.id);
+
+            container.innerHTML = `
+                <div class="product-details-page">
+                    <div>
+                        <img src="${product.image}" alt="${product.name}" class="product-details-img">
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category" style="display:block; margin-bottom:1rem">${product.category}</span>
+                        <h1>${product.name}</h1>
+                        <div class="product-rating" style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--warning)">${stars} ${product.rating}</div>
+                        <div class="price">$${product.price.toFixed(2)}</div>
+                        <p class="desc">${product.description}</p>
+                        
+                        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                            <button class="btn btn-primary" onclick="addToCart(${product.id})" style="flex: 1; padding: 1rem;">Add to Cart</button>
+                            <button class="btn btn-outline wishlist-action-btn ${isWishlisted ? 'active' : ''}" onclick="toggleWishlist(${product.id}, this)" style="padding: 1rem; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Add custom style for details page wishlist button
+            const style = document.createElement('style');
+            style.innerHTML = `
+                .wishlist-action-btn.active { background-color: var(--danger); color: white; border-color: var(--danger); }
+                .wishlist-action-btn:hover { background-color: var(--danger); color: white; border-color: var(--danger); }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>

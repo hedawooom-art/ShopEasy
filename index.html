@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEasy - Modern E-Commerce</title>
+    <meta name="description" content="Shop Smart. Shop Easy. Best online store for electronics, fashion and more.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">ShopEasy.</a>
+            
+            <form action="products.html" method="GET" class="search-bar" id="searchForm">
+                <input type="text" name="q" placeholder="Search products...">
+                <button type="submit" style="background:none;border:none;cursor:pointer"><i class="fas fa-search" style="color: var(--text-light)"></i></button>
+            </form>
+
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+
+            <div class="nav-icons">
+                <a href="wishlist.html" class="icon">
+                    <i class="fas fa-heart"></i>
+                    <span class="badge" id="wishlist-badge" style="display: none;">0</span>
+                </a>
+                <a href="cart.html" class="icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="badge" id="cart-badge" style="display: none;">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Shop Smart. Shop Easy.</h1>
+            <p>Discover the latest trends in fashion, electronics, and home essentials.</p>
+            <a href="products.html" class="btn btn-primary">Shop Now</a>
+        </div>
+    </section>
+
+    <section class="products-section container">
+        <h2 class="section-title">Featured Products</h2>
+        <div class="product-grid" id="featured-products">
+            <!-- Products loaded by JS -->
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>ShopEasy.</h3>
+                    <p style="color: var(--text-light);">Your one-stop shop for everything you need. Modern, affordable, and easy.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="products.html?category=Electronics">Electronics</a></li>
+                        <li><a href="products.html?category=Fashion">Fashion</a></li>
+                        <li><a href="products.html?category=Home">Home & Living</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ShopEasy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/products.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('featured-products');
+            // Show first 8 products as featured
+            const featured = products.slice(0, 8);
+            container.innerHTML = featured.map(p => createProductCard(p)).join('');
+        });
+    </script>
+</body>
+</html>
